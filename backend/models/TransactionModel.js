@@ -1,0 +1,44 @@
+const database = require("../database/database");
+
+class Transaction {
+    async create(user_id, category_id, description, amount, type, date){
+        var typeInt;
+
+        if (type == 'gasto')
+            typeInt = 0;
+        if (type == 'entrada')
+            typeInt = 1;
+
+        try {
+            await database.insert({user_id, category_id, type: typeInt, description, amount, date}).into("transactions");
+            return true;
+        } catch(err){
+            console.log(err);
+            return false;
+        }
+    }
+
+    async findAll(user_id){
+        try {
+            var transactions = await database.select("transactions.*", "categories.name as category_name")
+            .join("categories", "transactions.category_id", "=", "categories.id")
+            .where("transactions.user_id", "=", user_id).from("transactions")
+    
+            return transactions;
+        } catch(err){
+            return [];
+        }
+    }
+
+    async delete(id){
+        try {
+            await database.delete().where({id: id}).from("transactions");
+            return true;
+        } catch(err){
+            console.log(err);
+            return false;
+        }
+    }
+}
+
+module.exports = new Transaction();
