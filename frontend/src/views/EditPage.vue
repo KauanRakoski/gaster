@@ -25,9 +25,9 @@
                 <label for="category"><strong>Categoria:</strong></label>
                 <span class="select">
                     <select required name="category" class="select" v-model="category" @change="handleChange">
-                        <option value="1" selected>Escolha uma categoria</option>
-                        <option v-for="(category, index) in categories" :key="index" :value="category.id">
-                            {{ category.name }}
+                        <option value="0">Escolha uma categoria</option>
+                        <option v-for="(cat, index) in categories" :key="index" :value="cat.id">
+                            {{ cat.name }}
                         </option>
                         <optgroup label="Ações">
                             <option value="delete">🗑️ Excluir categoria selecionada</option>
@@ -76,12 +76,29 @@ export default {
             date: '',
             category: 1,
             toBeDeleted: undefined,
+            category_color: '#000000',
+            category_name: '',
             categories: []
         }
     },
     created(){
-        api.get('/rawcategory', {headers: { Authorization: localStorage.getItem('token') }})
-            .then(res => this.categories = res.data.categories);
+        var token = localStorage.getItem('token');
+        api.get('/rawcategory', {headers: { Authorization: token }})
+            .then(res => {
+                this.categories = res.data.categories;
+
+                api.get(`/transaction/${this.$route.params.id}`, {headers: { Authorization: token }})
+                    .then(res => {
+                        var transaction = res.data.transaction;
+                        console.log(transaction)
+                        this.amount = transaction.amount;
+                        this.description = transaction.description;
+                        this.category = transaction.category_id;
+                        this.date = transaction.date.split("T")[0];
+                    });
+            });
+
+        
     },
     methods: {
         submitForm (type){
@@ -113,7 +130,6 @@ export default {
             })
         },
         handleChange() {
-            console.log(this.category, this.toBeDeleted)
             if (this.category === "delete") {
                 if (this.toBeDeleted) {
                   this.deleteSelectedCategory();

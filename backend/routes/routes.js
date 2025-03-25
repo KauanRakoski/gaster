@@ -32,6 +32,7 @@ router.put('/user', UserController.changePassword);
 
 // Transactions handling
 router.get('/transaction', Auth, TransactionsController.getTransactions);
+router.get('/transaction/:id', Auth, TransactionsController.getTransaction);
 router.post('/transaction', Auth, TransactionsController.create);
 router.delete('/transaction/:id', Auth, TransactionsController.delete);
 

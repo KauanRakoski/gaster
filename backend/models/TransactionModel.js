@@ -22,10 +22,27 @@ class Transaction {
         try {
             var transactions = await database.select("transactions.*", "categories.name as category_name")
             .join("categories", "transactions.category_id", "=", "categories.id")
-            .where("transactions.user_id", "=", user_id).from("transactions")
+            .where("transactions.user_id", "=", user_id).orderBy("date", "desc")
+            .from("transactions")
     
             return transactions;
         } catch(err){
+            return [];
+        }
+    }
+
+    async findById(id){
+        try {
+            var result = await database.select("*").where({id: id}).from("transactions");
+            var response = undefined;
+
+            if (result.length > 0)
+                response = result[0];
+
+            return response;
+            
+        } catch (err){
+            console.log(err);
             return [];
         }
     }

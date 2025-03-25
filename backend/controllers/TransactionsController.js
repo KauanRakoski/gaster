@@ -1,3 +1,4 @@
+const { transaction } = require("../database/database");
 const Transaction = require("../models/TransactionModel");
 
 class TransactionsController {
@@ -22,6 +23,22 @@ class TransactionsController {
         } catch(err){
             console.log(err);
             res.status(500).json({success: false, transactions: []})
+        }
+    }
+
+    async getTransaction (req, res){
+        var id = req.params.id;
+
+        try {
+            var t = await Transaction.findById(id);
+            
+            if (t)
+                return res.status(200).json({success: true, transaction: t});
+            else
+                return res.status(404).json({success: false, transaction: t});
+        } catch(err){
+            console.log(err);
+            return res.status(500).json({success: false});
         }
     }
 

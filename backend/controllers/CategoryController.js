@@ -4,7 +4,20 @@ class CategoryController {
     async create (req, res) {
         var { name, color } = req.body;
         var user_id = req.userId;
+        var valid = {success: true, incompletes: []};
 
+        if (email == undefined || email == ' '){
+            valid.success = false;
+            valid.incompletes.push("email");
+        }
+        if (color == undefined || email == ' '){
+            valid.success = false;
+            valid.incompletes.push("cor");
+        }
+
+        if (!valid.success)
+            return res.send(400).json(valid);
+        
         try {
             await Category.create(name, color, user_id);
             res.status(201).json({success: true});
