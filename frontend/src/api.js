@@ -1,7 +1,7 @@
 import axios from '../node_modules/axios';
 
 const api = axios.create({
-    baseURL: "http://localhost:3000"
+    baseURL: "https://gaster.onrender.com"
 });
 
 
