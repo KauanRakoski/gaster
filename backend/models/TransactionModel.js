@@ -47,6 +47,22 @@ class Transaction {
         }
     }
 
+    async update(id, category_id, description, amount, type, date){
+        var typeInt;
+
+        if (type == 'gasto')
+            typeInt = 0;
+        if (type == 'entrada')
+            typeInt = 1;
+
+        try {
+            await database.update({category_id, description, amount, type: typeInt, date}).where({id: id}).from("transactions");
+            return true;
+        }catch(err){
+            return false;
+        }
+    }
+
     async delete(id){
         try {
             await database.delete().where({id: id}).from("transactions");

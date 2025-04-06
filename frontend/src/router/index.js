@@ -4,6 +4,7 @@ import CreatePage from '../views/CreatePage.vue';
 import ProfilePage from '../views/ProfilePage.vue';
 import api from '../api';
 import EditPage from '@/views/EditPage.vue';
+import LandingPage from '@/views/LandingPage.vue';
 
 const adminAuth = (to, from, next) => {
   var token = localStorage.getItem("token");
@@ -21,6 +22,11 @@ const adminAuth = (to, from, next) => {
 const routes = [
   {
     path: '/',
+    name: 'landing',
+    component: LandingPage,
+  },
+  {
+    path: '/home',
     name: 'home',
     component: HomePage,
     beforeEnter: adminAuth

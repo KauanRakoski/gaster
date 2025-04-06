@@ -11,8 +11,10 @@ class Category {
         }
     }
     
-    async findAll(user_id){
-        var data = await database('transactions as t')
+    async findAll(user_id, time_period=undefined){
+        
+
+        var dataQuery = database('transactions as t')
         .join('categories as c', 't.category_id', 'c.id')
         .where('t.user_id', user_id)
         .andWhere('t.type', '=', 0)
@@ -24,6 +26,14 @@ class Category {
         )
         .groupBy('c.id', 'c.name', 'c.color');
         
+        if (time_period){
+            var minDate = new Date();
+            minDate.setDate(minDate.getDate() - time_period);
+
+            dataQuery.andWhere('t.date', '>=', minDate.toISOString().split('T')[0]);
+        }
+
+        var data = await dataQuery;
         return data;
     }
 

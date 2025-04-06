@@ -82,6 +82,9 @@ export default {
         }
     },
     created(){
+        if (!this.$route.params)
+            this.$router.push({name: 'home'});
+
         var token = localStorage.getItem('token');
         api.get('/rawcategory', {headers: { Authorization: token }})
             .then(res => {
@@ -96,7 +99,7 @@ export default {
                         this.category = transaction.category_id;
                         this.date = transaction.date.split("T")[0];
                     });
-            });
+                }).catch(err => console.log(err));
 
         
     },
@@ -114,9 +117,10 @@ export default {
 
             console.log(body);
 
-            api.post('/transaction', body, {
+            api.put(`/transaction/${this.$route.params.id}`, body, {
                 headers: { Authorization: token }
             }).then(() => this.$router.push({name: 'home'}))
+            .catch(err => console.log(err));
         },
         createCategory(){
             var token = localStorage.getItem("token");

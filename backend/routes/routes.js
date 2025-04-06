@@ -34,10 +34,11 @@ router.put('/user', UserController.changePassword);
 router.get('/transaction', Auth, TransactionsController.getTransactions);
 router.get('/transaction/:id', Auth, TransactionsController.getTransaction);
 router.post('/transaction', Auth, TransactionsController.create);
+router.put('/transaction/:id', Auth, TransactionsController.update);
 router.delete('/transaction/:id', Auth, TransactionsController.delete);
 
 // Category handling
-router.get('/category', Auth, CategoryController.getAll);
+router.get('/category/:time_period', Auth, CategoryController.getAll);
 router.get('/rawcategory', Auth, CategoryController.getRaw);
 router.post('/category', Auth, CategoryController.create);
 router.delete("/category/:id", Auth, CategoryController.delete);

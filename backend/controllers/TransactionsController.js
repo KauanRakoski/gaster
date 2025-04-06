@@ -42,6 +42,22 @@ class TransactionsController {
         }
     }
 
+    async update(req, res){
+        var { id } = req.params;
+        var { category_id, description, amount, type, date } = req.body;
+
+        try {
+            var ok = await Transaction.update(id, category_id, description, amount, type, date);
+
+            if (ok)
+                return res.status(200).json({success: true, description: 'Updated Successfuly'});
+            
+            return res.status(500).json({success: false, description: "Internal server error"});
+        } catch(err){
+            return res.status(500).json({success: false, description: "Internal server error"});
+        }
+    }
+
     async delete(req, res){
         var { id } = req.params;
 

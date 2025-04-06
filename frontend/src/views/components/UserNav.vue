@@ -1,6 +1,9 @@
 <template>
     <nav>
-        <router-link to="/"><h1 class="title is-4">Gaster</h1></router-link>
+        <router-link to="/home" class="logo-holder">
+            <img  class="logo" src="../../assets/logo.svg">
+            <h1 class="title is-4">Gaster</h1>
+        </router-link>
         
 
         <ul>
@@ -57,5 +60,14 @@ ul {
     border-radius: 5px;
     margin-right: 10px;
     font-size: 12px;
+}
+.logo-holder {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.logo {
+    margin: 2px 10px 0 15px;
+    width: 35px;
 }
 </style>

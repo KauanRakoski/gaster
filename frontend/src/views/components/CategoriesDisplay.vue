@@ -2,14 +2,21 @@
     <section>
         <h3 class="title is-4">Gastos por categoria</h3>
 
-        <Doughnut :data="chartdata" :options="chartoptions" />
+        <div v-if="categories.length == 0" class="warn rmg">
+            <p>Não foram registrados gastos neste período</p>
+        </div>
+
+        <div v-else>
+            <Doughnut :data="chartdata" :options="chartoptions" />
         
-        <ul class="legend">
-            <li class="showCat" v-for="(category, index) in categories" :key="index">
-                <div class="colorbox" :style="`background-color: ${category.color}`"></div>
-                <p>{{ category.category_name }}</p>
-            </li>
-        </ul>
+            <ul class="legend">
+                <li class="showCat" v-for="(category, index) in categories" :key="index">
+                    <div class="colorbox" :style="`background-color: ${category.color}`"></div>
+                    <p>{{ category.category_name }}</p>
+                </li>
+            </ul>
+        </div>
+        
     </section>
 </template>
 
@@ -44,7 +51,7 @@ export default {
     created(){
         var token = localStorage.getItem('token');
 
-        api.get('/category', { headers: { Authorization: token }})
+        api.get('/category/all', { headers: { Authorization: token }})
             .then(res => {
                 var categories = res.data.categories;
                 this.categories = categories;
@@ -54,14 +61,18 @@ export default {
                     datasets: [{
                         backgroundColor: categories.map(category => category.color),
                         data: categories.map(category => parseInt(category.total_amount))
-                }]}})
+                }]}
+            })
             .catch(err => console.log(err))
+
+           
     }, 
     methods: {
-        refreshGraph(){
+        refreshGraph(time_period){
+            console.log(time_period)
             var token = localStorage.getItem('token');
 
-        api.get('/category', { headers: { Authorization: token }})
+        api.get(`category/${time_period}`, { headers: { Authorization: token }})
             .then(res => {
                 var categories = res.data.categories;
                 this.categories = categories;
@@ -80,7 +91,7 @@ export default {
 
 <style scoped>
 section {
-    padding: 0;
+    padding: 0px !important;
     margin-top: 0;
 }
 h3 {
@@ -105,5 +116,8 @@ h3 {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+}
+.rmg {
+    margin-top: -5px;
 }
 </style>

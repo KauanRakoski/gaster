@@ -1,6 +1,9 @@
 <template>
     <nav>
-        <h1 class="title is-4">Gaster</h1>
+        <router-link to="/" class="logo-holder">
+            <img  class="logo" src="../../assets/logo.svg">
+            <h1 class="title is-4">Gaster</h1>
+        </router-link>
     </nav>
 </template>
 
@@ -20,5 +23,14 @@ nav {
 }
 h1 {
     color: #FFFFFF;
+}
+.logo-holder {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.logo {
+    margin: 2px 10px 0 15px;
+    width: 35px;
 }
 </style>

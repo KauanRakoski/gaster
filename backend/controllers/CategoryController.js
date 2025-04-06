@@ -29,9 +29,10 @@ class CategoryController {
 
     async getAll(req, res){
         var user_id = req.userId;
+        var time_period = Number.parseInt(req.params.time_period);
 
         try {
-            var categories = await Category.findAll(user_id);
+            var categories = await Category.findAll(user_id, time_period);
             res.status(200).json({success: true, categories});
         } catch (err){
             console.log(err);

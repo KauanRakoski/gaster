@@ -6,7 +6,7 @@
       <CategoriesDisplay ref="graph"/>
 
       <section class="column-view">
-        <InOutTable :transactions="transactions" @requestRefresh="refreshPage"/>
+        <InOutTable :transactions="transactions" @requestRefresh="refreshPage" @changeTimePeriod="updatePeriod"/>
         <BalanceDisplay :inAmount="inAmount" :outAmount="outAmount"/>
       </section>
       
@@ -60,6 +60,21 @@ export default {
         this.inAmount = transactions.filter(t => t.type == 1).reduce((acc, current) => acc + Number(current.amount), 0);
         this.outAmount = transactions.filter(t => t.type == 0).reduce((acc, current) => acc + Number(current.amount), 0);
       })
+    },
+
+    updatePeriod(period){
+      var updatedTransactions = this.transactions;
+
+      if (period != 'all'){
+        var minDate = new Date();
+        minDate.setDate(minDate.getDate() - period);
+        updatedTransactions = this.transactions.filter(t => new Date(t.date) >= minDate);
+      }
+
+      this.$refs.graph.refreshGraph(period);
+      
+      this.inAmount = updatedTransactions.filter(t => t.type == 1).reduce((acc, current) => acc + Number(current.amount), 0);
+      this.outAmount = updatedTransactions.filter(t => t.type == 0).reduce((acc, current) => acc + Number(current.amount), 0);
     }
   }
 }
