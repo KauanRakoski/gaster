@@ -6,13 +6,11 @@ class CategoryController {
         var user_id = req.userId;
         var valid = {success: true, incompletes: []};
 
-        if (email == undefined || email == ' '){
+        if (name == undefined || name == ' '){
             valid.success = false;
-            valid.incompletes.push("email");
         }
-        if (color == undefined || email == ' '){
+        if (color == undefined || color == ' '){
             valid.success = false;
-            valid.incompletes.push("cor");
         }
 
         if (!valid.success)
