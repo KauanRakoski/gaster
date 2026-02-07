@@ -1,0 +1,13 @@
+<div class="chart-container">
+  <div class="column">
+    <h3>Expenses by Category</h3>
+    
+    @if (categories.length > 0) {
+      <div class="canvas-wrapper">
+        <canvas #donutCanvas></canvas>
+      </div>
+    } @else {
+      <span class="none">No expense registered yet</span>
+    }
+  </div>
+</div>

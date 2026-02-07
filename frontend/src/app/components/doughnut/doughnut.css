@@ -1,0 +1,61 @@
+.chart-container {
+  background-color: #1e1e2d;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  border-radius: 12px;
+  padding: 20px; /* Um pouco mais de respiro */
+  display: flex;
+  flex-direction: column;
+  width: 100%; 
+  height: 400px; 
+  transition: transform 0.2s ease;
+  color: white;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+.chart-container:hover {
+  transform: translateY(-5px);
+}
+
+h3 {
+  color: #9ca3af;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  /* Isso garante que, se não houver gráfico, o texto fique no meio */
+  justify-content: center; 
+}
+
+/* O wrapper segura o Chart.js para ele não crescer infinitamente */
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  flex: 1; /* Ocupa todo o espaço restante abaixo do título */
+  min-height: 0; /* Truque de flexbox para permitir encolhimento */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Removemos tamanhos fixos do canvas. Deixe o Chart.js controlar via JS */
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Centralização do texto vazio */
+.none {
+  align-self: center;
+  text-align: center;
+  color: #6b7280;
+  font-size: 1rem;
+  /* Removemos o margin-top: 200px pois o justify-content já centraliza */
+}

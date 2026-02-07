@@ -1,0 +1,20 @@
+<div class="card">
+  <div class="card-header">
+    <span class="card-title">{{ title }}</span>
+    
+    @if(type === 'income') { <span class="indicator" style="color: #10b981">▲</span> }
+    @if(type === 'expense') { <span class="indicator" style="color: #f43f5e">▼</span> }
+  </div>
+
+  <h3 class="card-value" 
+      [class.text-danger]="type === 'balance' && value < 0"
+      [class.text-success]="type === 'balance' && value >= 0">
+    {{ value | currency:'BRL':'symbol':'1.0-0' }}
+  </h3>
+
+  <div class="card-footer">
+    @if(type === 'income') { Earned this month }
+    @if(type === 'expense') { Spent this month }
+    @if(type === 'balance') { Monthly balance }
+  </div>
+</div>

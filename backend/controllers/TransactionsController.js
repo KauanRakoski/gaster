@@ -1,3 +1,4 @@
+const database = require("../database/database");
 const { transaction } = require("../database/database");
 const Transaction = require("../models/TransactionModel");
 
@@ -5,6 +6,8 @@ class TransactionsController {
     async create(req, res){
         var { category_id, description, amount, type, date } = req.body;
         var user_id = req.userId;
+
+        console.log(user_id, category_id, description, amount, type, date)
     
         try {
             await Transaction.create(user_id, category_id, description, amount, type, date);
@@ -70,6 +73,38 @@ class TransactionsController {
         }
     }
 
+  async getMonthlyBalance (req, res) {
+    var userId = req.userId;
+
+    const TYPE_INCOME = 1; 
+    const TYPE_EXPENSE = 0;
+
+    try {
+        
+    const report = await database('transactions')
+      .select(
+        database.raw("TO_CHAR(date, 'YYYY-MM') as mes"),
+            database.raw(
+          "SUM(CASE WHEN type = ? THEN amount ELSE 0 END) as total_entradas", 
+          [TYPE_INCOME]
+        ),
+
+        database.raw(
+          "SUM(CASE WHEN type = ? THEN amount ELSE 0 END) as total_saidas", 
+          [TYPE_EXPENSE]
+        )
+      )
+      .where('user_id', userId)
+      .andWhereRaw("date >= CURRENT_DATE - INTERVAL '6 months'")
+      .groupByRaw("TO_CHAR(date, 'YYYY-MM')")
+      .orderBy('mes', 'asc');
+
+      res.status(200).json({success: true, data: report});
+    } catch (err){
+      res.status(500).json({success: false, data: []})
+    }
+    
+};
 }
 
 module.exports = new TransactionsController();

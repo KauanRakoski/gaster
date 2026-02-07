@@ -12,8 +12,6 @@ class Category {
     }
     
     async findAll(user_id, time_period=undefined){
-        
-
         var dataQuery = database('transactions as t')
         .join('categories as c', 't.category_id', 'c.id')
         .where('t.user_id', user_id)
@@ -45,6 +43,7 @@ class Category {
 
     async delete(id){
         try {
+            console.log(id)
             await database.delete().where({id: id}).from("categories");
             return true;
         } catch(err){

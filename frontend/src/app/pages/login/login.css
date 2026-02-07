@@ -1,0 +1,151 @@
+/* --- CONTAINER GERAL --- */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #0c0c11;
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* --- CARD DE LOGIN --- */
+.login-card {
+  background-color: #1e1e2d;
+  width: 100%;
+  max-width: 380px;
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  border: 1px solid #2d2d3f;
+}
+
+/* --- BRANDING (LOGO) --- */
+.brand-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.app-logo {
+  width: 64px;  /* Ajuste conforme o tamanho real do seu SVG */
+  height: 64px;
+  margin-bottom: 20px;
+  /* Se o SVG for preto e você quiser forçar branco via CSS: */
+  /* filter: invert(1); */
+}
+
+h2 {
+  color: #f3f4f6;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  color: #9ca3af;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* --- INPUTS --- */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  color: #e0e0e0;
+  font-size: 13px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  width: 20px; 
+  height: 20px;
+  opacity: 0.5; 
+  pointer-events: none;
+}
+
+input {
+  width: 100%;
+  padding: 12px 12px 12px 48px; 
+  background-color: #0c0c11;
+  border: 1px solid #3f3f5f;
+  border-radius: 10px;
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  background-color: #151521;
+}
+
+input:focus + .input-icon, 
+.input-wrapper:focus-within .input-icon {
+  opacity: 1;
+}
+
+input::placeholder {
+  color: #525266;
+}
+
+/* --- BOTÃO --- */
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  margin-top: 10px;
+}
+
+.btn-login:hover:not(:disabled) {
+  background-color: #4f46e5;
+  transform: translateY(-1px);
+}
+
+.btn-login:disabled {
+  background-color: #3f3f5f;
+  color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* --- FOOTER --- */
+.login-footer {
+  margin-top: 25px;
+}
+
+.login-footer a {
+  color: #9ca3af;
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.login-footer a:hover {
+  color: #6366f1;
+}

@@ -1,0 +1,197 @@
+<div class="container">
+  <div class="dashboard">
+    <header class="header">
+      <div class="brand">
+        <div class="logo-icon"><img src="logo.svg"></div> <h1>Welcome to Gaster</h1>
+      </div>
+    
+      <div class="actions-wrapper">
+
+        <div class="main-actions">
+          <button class="btn-action primary" (click)="showPopup()">
+            <span class="icon">+</span> New Transaction
+          </button>
+
+          <button class="btn-action secondary" (click)="showPopupCategory()">
+            <span class="icon"><img src="folder.svg"></span> Categories
+          </button>
+        </div>
+      
+        <div class="separator"></div>
+      
+        <button class="btn-logout"title="Logout" (click)="signOut()">
+          <span class="icon"><img src="logout.svg"></span>
+          <span class="text">Exit</span>
+        </button>
+      
+      </div>
+    </header>
+
+    @if (financialHistory.length > 0) {
+  <section class="summary-cards">
+    
+    <summary-card 
+      title="Income" 
+      [value]="financialHistory[financialHistory.length - 1].total_entradas" 
+      type="income" 
+      icon="⬆️">
+    </summary-card>
+
+    <summary-card 
+      title="Expenses" 
+      [value]="financialHistory[financialHistory.length - 1].total_saidas" 
+      type="expense" 
+      icon="⬇️">
+    </summary-card>
+
+    <summary-card 
+      title="Balance" 
+      [value]="financialHistory[financialHistory.length - 1].total_entradas - financialHistory[financialHistory.length - 1].total_saidas" 
+      type="balance" 
+      icon="💰">
+    </summary-card>
+
+  </section>
+}
+    
+
+    <section class="graphs">
+      <line-chart [historyData]="financialHistory"></line-chart>>
+      <donut-chart [categories]="categoriesData"></donut-chart>
+    </section>
+
+    <spend-table *ngIf="transactionsData" [transactions]="transactionsData" (onDelete)="DeleteTransaction($event)" (onEdit)="editTransaction($event)"> </spend-table>
+
+    <!-- POPUP TO REGISTER TRANSACTION -->
+    <div class="popup-overlay" *ngIf="add_visible" (click)="closePopup()">
+      <div class="popup-register" (click)="$event.stopPropagation()">
+        <h3>New Transaction</h3>
+
+        <form (ngSubmit)="saveTransaction()">
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input
+              type="text"
+              id="description"
+              name="description"
+              placeholder="e.g. Freelance Project"
+              [(ngModel)]="transaction_data.description"
+            />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ammount">Value ($)</label>
+              <input
+                type="number"
+                id="ammount"
+                name="ammount"
+                placeholder="0.00"
+                [(ngModel)]="transaction_data.amount"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input type="date" id="date" name="date" [(ngModel)]="transaction_data.date" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="category">Category</label>
+
+            <select id="category" name="category" [(ngModel)]="transaction_data.category_id">
+              <option [ngValue]="null" disabled selected>Select...</option>
+
+              <option *ngFor="let category of categoriesBasic" [ngValue]="category.id">
+                {{ category.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Transaction Type</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="type"
+                  value="income"
+                  [(ngModel)]="transaction_data.type"
+                />
+                <span class="radio-text">Income</span>
+              </label>
+
+              <label class="radio-label">
+                <input
+                  type="radio"
+                  name="type"
+                  value="expense"
+                  [(ngModel)]="transaction_data.type"
+                />
+                <span class="radio-text">Expense</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="button" class="btn-cancel" (click)="closePopup()">Cancel</button>
+            <button type="submit" class="btn-save">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup-overlay" *ngIf="add_category_visible" (click)="closePopupCategory()">
+      <div class="popup-register" (click)="$event.stopPropagation()">
+        <h3>Create a New Category</h3>
+
+        <form (ngSubmit)="saveCategory()">
+          <div class="form-group">
+            <label for="cat_name">Category name</label>
+            <input
+              type="text"
+              id="cat_name"
+              name="cat_name"
+              placeholder="Ex: Lazer, Investimentos..."
+              required
+              [(ngModel)]="category_data.name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="cat_color">Color of Category</label>
+            <div class="color-picker-wrapper">
+              <input
+                type="color"
+                id="cat_color"
+                name="cat_color"
+                class="input-color"
+                [(ngModel)]="category_data.color"
+              />
+
+              <span class="color-code">{{ category_data.color }}</span>
+            </div>
+          </div>
+
+          <div class="categories-list">
+            @for (category of categoriesBasic; track $index){
+              <div class="category">
+                <span>{{ category.name }}</span>
+                <button type="button" (click)="deleteCategory(category.id)" class="deleteCatBtn"><img src="trash.svg"></button>
+              </div>
+            }
+          </div>
+          
+
+          <div class="actions">
+            <button type="button" class="btn-cancel" (click)="closePopupCategory()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn-save">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

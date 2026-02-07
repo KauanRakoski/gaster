@@ -1,0 +1,36 @@
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  phone_number VARCHAR(20) NULL,
+  password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE categories (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  name VARCHAR(50) NOT NULL, 
+  color VARCHAR(7) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE transactions (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  category_id INT NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  amount DECIMAL(10,2) NOT NULL,
+  type SMALLINT NOT NULL,
+  date DATE NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+);
+
+CREATE TABLE passtokens (
+  id SERIAL PRIMARY KEY,
+  user_id INT NOT NULL,
+  used BOOLEAN NOT NULL DEFAULT FALSE,
+  token VARCHAR(200) NOT NULL UNIQUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  expires_at TIMESTAMP NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);

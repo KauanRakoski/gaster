@@ -1,0 +1,56 @@
+<div class="signup-container">
+  <div class="signup-card">
+    
+    <div class="brand-header">
+      <img src="logo.svg" alt="App Logo" class="app-logo">
+      <h2>Create Account</h2>
+      <p class="subtitle">Join us and start managing your finances.</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
+      
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-wrapper">
+          <img src="mail.svg" class="input-icon" alt="email icon">
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            placeholder="name@example.com" 
+            required
+            email
+            [(ngModel)]="user.email"
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <img src="lock.svg" class="input-icon" alt="lock icon">
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            placeholder="••••••••" 
+            required
+            minlength="6"
+            [(ngModel)]="user.password"
+          >
+        </div>
+      </div>
+
+      <button type="submit" class="btn-signup" [disabled]="!signupForm.form.valid">
+        Sign Up
+      </button>
+
+    </form>
+    
+    <div class="signup-footer">
+      <span>Already have an account?</span>
+      <a routerLink="/login">Sign In</a>
+    </div>
+
+  </div>
+</div>

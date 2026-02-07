@@ -1,0 +1,56 @@
+<div class="table-card">
+  <h3>Transaction History</h3>
+  <span class="info">Double click to edit a transaction</span>
+
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Value</th> <th>Category</th>
+          <th>Date</th>
+          <th style="width: 50px;"></th> </tr>
+      </thead>
+
+      <tbody>
+        @if (transactions.length > 0) {
+          
+            <tr *ngFor="let item of transactions" (dblclick)="handleDoubleClick(item)">
+              <td class="primary-text" title="{{ item.description }}">
+                {{ item.description }}
+              </td>
+
+              <td
+                class="value-text"
+                [ngClass]="{
+                  'income-color': item.type === 1,
+                  'expense-color': item.type === 0
+                }">
+                {{ item.type === 0 ? '-' : '+' }} 
+                {{ item.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
+              </td>
+
+              <td>
+                <span class="badge">{{ item.category_name }}</span>
+              </td>
+
+              <td class="date-text">{{ item.date | date: 'dd/MM/yyyy' }}</td>
+              
+              <td>
+                <button type="button" class="deleteBtn" (click)="$event.stopPropagation(); deleteItem(item.id)" title="Delete">
+                  <img src="trash.svg" alt="Delete">
+                </button>
+              </td>
+            </tr>
+          
+        } @else {
+          <tr>
+            <td colspan="5" class="empty-state">
+              No transactions registered yet
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

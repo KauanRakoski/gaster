@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 class UserController {
     async create(req, res){
         var {email, password, phone_number} = req.body;
-        console.log("hel")
+       
         var user = await User.findByEmail(email);
 
         if (user != undefined){
@@ -63,13 +63,17 @@ class UserController {
 
     async recover (req, res){
         var { email } = req.body;
+        console.log(email)
 
         try{
             var created = await PasswordToken.create(email);
 
             if (created.success){
-                var success = UserService.sendMail(email, created.token);
+                var success = await UserService.sendMail(email, created.token);
+                console.log("success")
+                console.log(success)
                 if(success)
+                    console.log("returning ok")
                     return res.status(200).json({success: true})
                 
                 return res.status(500).json({success: false})

@@ -36,6 +36,7 @@ router.get('/transaction/:id', Auth, TransactionsController.getTransaction);
 router.post('/transaction', Auth, TransactionsController.create);
 router.put('/transaction/:id', Auth, TransactionsController.update);
 router.delete('/transaction/:id', Auth, TransactionsController.delete);
+router.get('/balance', Auth, TransactionsController.getMonthlyBalance)
 
 // Category handling
 router.get('/category/:time_period', Auth, CategoryController.getAll);

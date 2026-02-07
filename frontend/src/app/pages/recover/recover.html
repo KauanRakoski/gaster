@@ -1,0 +1,61 @@
+<div class="auth-container">
+  <div class="auth-card">
+    
+    @if (!emailSent) {
+      <div class="brand-header">
+        <img src="logo.svg" alt="App Logo" class="app-logo">
+        <h2>Reset Password</h2>
+        <p class="subtitle">Enter your email and we'll send you a link to get back into your account.</p>
+      </div>
+
+      <form (ngSubmit)="onSubmit()" #forgotForm="ngForm">
+        
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrapper">
+            <img src="mail.svg" class="input-icon" alt="email icon">
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              placeholder="name@example.com" 
+              required
+              email
+              [(ngModel)]="email"
+            >
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="!forgotForm.form.valid || isLoading">
+          {{ isLoading ? 'Sending...' : 'Send Recovery Link' }}
+        </button>
+
+      </form>
+      
+      <div class="auth-footer">
+        <a routerLink="/login" class="back-link">← Back to Login</a>
+      </div>
+    }
+
+    @if (emailSent) {
+      <div class="success-state">
+        <div class="icon-circle">
+          <span class="check-icon">✓</span>
+        </div>
+        <h2>Check your mail</h2>
+        <p class="subtitle">
+          We have sent a password recovery link to <br>
+          <strong class="highlight-text">{{ email }}</strong>
+        </p>
+        
+        <p class="info-text">
+          Did not receive the email? Check your spam filter or
+          <button type="button" class="link-btn" (click)="retry()">try another email address</button>.
+        </p>
+
+        <a routerLink="/login" class="btn-primary">Return to Login</a>
+      </div>
+    }
+
+  </div>
+</div>

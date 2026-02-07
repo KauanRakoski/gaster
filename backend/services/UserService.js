@@ -6,7 +6,7 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true, // true for port 465, false for other ports
     auth: {
-      user: "astralab@zohomail.com",
+      user: "gaster_expenses@zohomail.com",
       pass: process.env.MAIL_PASS,
     },
   });
@@ -38,8 +38,9 @@ class UserService {
 
     // Envia email para recuperação de senha
     async sendMail(email, token){
+        console.log("trying to send mail")
         transporter.sendMail({
-            from: 'Astralab <astralab@zohomail.com>',
+            from: 'Gaster <gaster_expenses@zohomail.com>',
             to: `${email}`,
             subject: 'Gaster: solicitação de recuperação de senha',
             text: `Foi solicitada a recuperação de senha. Se deseja prosseguir por favor acesse o link 
@@ -52,6 +53,8 @@ class UserService {
             else
                 return true;
         })
+
+        return true;
     }
 }
 

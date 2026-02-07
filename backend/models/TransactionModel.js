@@ -4,11 +4,13 @@ class Transaction {
     async create(user_id, category_id, description, amount, type, date){
         var typeInt;
 
-        if (type == 'gasto')
+        if (type == 'expense')
             typeInt = 0;
-        if (type == 'entrada')
+        else if (type == 'income')
             typeInt = 1;
-
+        else
+            typeInt = 0; // defautl to expense
+        
         try {
             await database.insert({user_id, category_id, type: typeInt, description, amount, date}).into("transactions");
             return true;

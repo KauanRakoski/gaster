@@ -1,0 +1,54 @@
+<div class="login-container">
+  <div class="login-card">
+    
+    <div class="brand-header">
+      <img src="logo.svg" alt="App Logo" class="app-logo">
+      
+      <h2>Welcome Back</h2>
+      <p class="subtitle">Enter your credentials to access your account.</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-wrapper">
+          <img src="mail.svg" class="input-icon" alt="email icon">
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            placeholder="name@example.com" 
+            required
+            [(ngModel)]="user.email"
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <img src="lock.svg" class="input-icon" alt="lock icon">
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            placeholder="••••••••" 
+            required
+            [(ngModel)]="user.password"
+          >
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login" [disabled]="!loginForm.form.valid">
+        Sign In
+      </button>
+
+    </form>
+    
+    <div class="login-footer">
+      <a routerLink="/forgot-password">Forgot password?</a>
+    </div>
+
+  </div>
+</div>
