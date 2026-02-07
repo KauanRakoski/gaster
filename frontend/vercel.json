@@ -2,6 +2,10 @@
   "version": 2,
   "rewrites": [
     {
+      "source": "/api-proxy/:path*",
+      "destination": "http://98.91.28.4:3000/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
