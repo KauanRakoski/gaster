@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map , tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient)
-  private api_url = 'http://127.0.0.1:3000'
+  private api_url = environment.apiUrl
 
   signUp(userData: { email: string, password: string }) {
     let body = {

@@ -9,6 +9,7 @@ import { forkJoin } from 'rxjs';
 import { DashboardService } from '../../services/dashboard.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { SummaryCardComponent } from '../../components/summary-card/summary-card';
+import { environment } from '../../../environments/environment';
 
 interface TransactionData {
   description: string;
@@ -26,7 +27,7 @@ interface TransactionData {
 })
 export class Dashboard implements OnInit{
   private http = inject(HttpClient)
-  private api_url = 'http://127.0.0.1:3000'
+  private api_url = environment.apiUrl
   private dashboardService = inject(DashboardService)
   private cdr = inject(ChangeDetectorRef);
 
