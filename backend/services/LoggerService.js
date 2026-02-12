@@ -25,7 +25,7 @@ function formatMessage(level, message, details=''){
     const color = level.color;
     const label = level.label;
 
-    const detailsString = meta ? `\n${JSON.stringify(details, null, 2)}` : '';
+    const detailsString = details ? `\n${JSON.stringify(details, null, 2)}` : '';
 
     return `${color}[${timestamp}] ${label}:${colors.reset} ${message}\n ${detailsString}`;
 }
