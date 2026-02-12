@@ -11,6 +11,16 @@ class Category {
         }
     }
     
+    async findByIdAndUser (id, user_id){
+        try {
+            let category = await database.select({id, user_id}).from("categories")
+            return category
+        } catch(err){
+            console.log(err)
+            return {}
+        }
+    }
+    
     async findAll(user_id, time_period=undefined){
         var dataQuery = database('transactions as t')
         .join('categories as c', 't.category_id', 'c.id')

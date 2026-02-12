@@ -1,4 +1,5 @@
 const Category = require("../models/CategoryModel");
+const logger = require("../services/LoggerService");
 
 class CategoryController {
     async create (req, res) {
@@ -20,7 +21,7 @@ class CategoryController {
             await Category.create(name, color, user_id);
             res.status(201).json({success: true});
         } catch(err){
-            console.log(err);
+            logger.error("Error creating category", err)
             res.status(500).json({success: false});
         }
     }
@@ -33,7 +34,7 @@ class CategoryController {
             var categories = await Category.findAll(user_id, time_period);
             res.status(200).json({success: true, categories});
         } catch (err){
-            console.log(err);
+            logger.error("Error getting categories", err)
             res.status(500);
         }
     }
@@ -45,7 +46,7 @@ class CategoryController {
             var categories = await Category.findRaw(user_id);
             res.status(200).json({success: true, categories});
         } catch (err){
-            console.log(err);
+            logger.error("Error getting categories raw", err)
             res.status(500);
         }
     }
@@ -57,7 +58,7 @@ class CategoryController {
             await Category.delete(id);
             res.status(200).json({success: true});
         } catch(err){
-            console.log(err);
+            logger.error("Error deleting category", err)
             res.status(500).json({success: false});
         }
     }

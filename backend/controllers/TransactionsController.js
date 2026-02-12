@@ -1,18 +1,26 @@
 const database = require("../database/database");
 const { transaction } = require("../database/database");
 const Transaction = require("../models/TransactionModel");
+const Category = require("../models/CategoryModel")
+const logger = require("../services/LoggerService")
 
 class TransactionsController {
     async create(req, res){
         var { category_id, description, amount, type, date } = req.body;
         var user_id = req.userId;
+        
+        let category = await Category.findByIdAndUser(category_id, user_id);
 
-        console.log(user_id, category_id, description, amount, type, date)
-    
+        if (category == {} || category == null || category.length <= 0){
+            res.status(404).json({success: false});
+            return;
+        }
+            
         try {
             await Transaction.create(user_id, category_id, description, amount, type, date);
             res.status(201).json({success: true});
         } catch(err){
+            logger.error("Error creating transaction", err)
             res.status(500).json({success: false});
         }
     }
@@ -24,7 +32,7 @@ class TransactionsController {
             var transactions = await Transaction.findAll(user_id);
             res.json({success: true, transactions});
         } catch(err){
-            console.log(err);
+            logger.error("Error getting transactions", err)
             res.status(500).json({success: false, transactions: []})
         }
     }
@@ -40,7 +48,7 @@ class TransactionsController {
             else
                 return res.status(404).json({success: false, transaction: t});
         } catch(err){
-            console.log(err);
+            logger.error("Error getting transaction", err)
             return res.status(500).json({success: false});
         }
     }
@@ -57,6 +65,7 @@ class TransactionsController {
             
             return res.status(500).json({success: false, description: "Internal server error"});
         } catch(err){
+            logger.error("Error updating transaction", err)
             return res.status(500).json({success: false, description: "Internal server error"});
         }
     }
@@ -68,7 +77,7 @@ class TransactionsController {
             await Transaction.delete(id);
             res.status(200).json({success: true});
         } catch (err) {
-            console.log(err);
+            logger.error("Error deleting transaction", err)
             res.status(500).json({success: false});
         }
     }
@@ -101,7 +110,8 @@ class TransactionsController {
 
       res.status(200).json({success: true, data: report});
     } catch (err){
-      res.status(500).json({success: false, data: []})
+        logger.error("Error getting monthly balance", err)
+        res.status(500).json({success: false, data: []})
     }
     
 };
